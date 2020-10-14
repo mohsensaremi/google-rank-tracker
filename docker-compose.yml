@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  hub:
+    image: selenium/hub:latest
+
+  chrome:
+    image: selenium/node-chrome:latest
+    depends_on:
+      - hub
+    environment:
+      HUB_HOST: hub
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - './backend/node_modules:/app/node_modules'
+      - './backend:/app'
+    depends_on:
+      - mongo
+      - rabbitmq
+      - chrome
+    ports:
+      - 3001:3001
+    environment:
+      TZ: "Asia/Tehran"
+      APP_PORT: 3001
+      DB_HOST: mongo
+      DB_PORT: 27017
+      DB_NAME: google-rank-tracker
+      DB_USER: root
+      DB_PASS: root
+      MQ_HOST: rabbitmq
+      SELENIUM_HUB_HOST: hub
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - './frontend/node_modules:/app/node_modules'
+      - './frontend:/app'
+    ports:
+      - 3000:3000
+    stdin_open: true
