@@ -3,6 +3,7 @@ version: '3'
 services:
   mongo:
     image: mongo:latest
+    restart: on-failure
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
@@ -11,6 +12,9 @@ services:
 
   mongo-express:
     image: mongo-express
+    restart: on-failure
+    depends_on:
+      - mongo
     ports:
       - 8081:8081
     environment:
@@ -19,9 +23,15 @@ services:
 
   rabbitmq:
     image: "rabbitmq:3-management"
+    restart: on-failure
     ports:
       - 5672:5672
       - 15672:15672
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 1
 
   hub:
     image: selenium/hub:latest
@@ -43,6 +53,7 @@ services:
       - mongo
       - rabbitmq
       - chrome
+    restart: on-failure
     ports:
       - 3001:3001
     environment:
