@@ -38,8 +38,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     volumes:
-      - './backend/node_modules:/app/node_modules'
-      - './backend:/app'
+      - './backend/src:/app/src'
     depends_on:
       - mongo
       - rabbitmq
@@ -62,8 +61,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     volumes:
-      - './frontend/node_modules:/app/node_modules'
-      - './frontend:/app'
+      - './frontend/src:/app/src'
     ports:
       - 3000:3000
     stdin_open: true
