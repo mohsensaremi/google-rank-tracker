@@ -1,0 +1,6 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/mohsensaremi/google-rank-tracker-backend.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/mohsensaremi/google-rank-tracker-frontend.git
