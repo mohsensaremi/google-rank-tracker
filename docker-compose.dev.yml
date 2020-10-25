@@ -39,7 +39,11 @@ services:
       HUB_HOST: hub
 
   backend:
-    image: mohsensaremi/google-rank-tracker-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - './backend/src:/app/src'
     depends_on:
       - mongo
       - rabbitmq
@@ -59,7 +63,11 @@ services:
       SELENIUM_HUB_HOST: hub
 
   frontend:
-    image: mohsensaremi/google-rank-tracker-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - './frontend/src:/app/src'
     ports:
-      - 3000:80
-    restart: on-failure
+      - 3000:3000
+    stdin_open: true
