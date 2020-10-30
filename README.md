@@ -51,8 +51,14 @@ Backend for managing all the work.
 
 The user interface for working with the application.
 
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
 ## Support
 
 <a href="https://www.buymeacoffee.com/mohsensaremi" target="_blank">
 <img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" alt="Buy Me A Coffee" data-canonical-src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" width="270" />
 </a>
+
+## License
+[MIT](LICENSE)
