@@ -38,6 +38,8 @@ services:
       - hub
     environment:
       SE_EVENT_BUS_HOST: hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
 
   backend:
     image: mohsensaremi/google-rank-tracker-backend:latest
