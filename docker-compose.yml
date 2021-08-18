@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mongo:
-    image: mongo:latest
+    image: mongo:4.4
     restart: on-failure
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -11,7 +11,7 @@ services:
       - './.docker/mongo/data/db:/data/db'
 
   mongo-express:
-    image: mongo-express
+    image: mongo-express:0.54
     restart: on-failure
     depends_on:
       - mongo
@@ -29,14 +29,17 @@ services:
       - 15672:15672
 
   hub:
-    image: selenium/hub:latest
+    image: selenium/hub:4.0.0-rc-1-prerelease-20210713
+    container_name: hub
 
   chrome:
-    image: selenium/node-chrome:latest
+    image: selenium/node-chrome:4.0.0-rc-1-prerelease-20210713
     depends_on:
       - hub
     environment:
-      HUB_HOST: hub
+      SE_EVENT_BUS_HOST: hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
 
   backend:
     image: mohsensaremi/google-rank-tracker-backend:latest
